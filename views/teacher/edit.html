@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="../../node_modules/font-awesome/css/font-awesome.css">
     <link rel="stylesheet" href="../../node_modules/nprogress/nprogress.css">
     <link rel="stylesheet" href="../../assets/css/index.css">
+    <link rel="stylesheet" href="/bxg/node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker3.standalone.min.css">
+
 </head>
 
 <body>
@@ -145,25 +147,25 @@
                     <li class="active">讲师添加</li>
                 </ol>
                 <div class="teacher-add">
-                    <form action="" class="form-horizontal col-xs-offset-2">
+                    <form id="form" action="" class="form-horizontal col-xs-offset-2">
                         <div class="form-group">
                             <label for="" class="col-xs-3 control-label">姓名</label>
                             <div class="col-xs-4">
-                                <input type="text" class="form-control input-sm" placeholder="讲师名称">
+                                <input name="tc_name" type="text" class="form-control input-sm" placeholder="讲师名称">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="" class="col-xs-3 control-label">入职时间</label>
                             <div class="col-xs-4">
-                                <input type="text" class="form-control input-sm">
+                                <input name="tc_join_date" type="text" class="form-control input-sm">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="" class="col-xs-3 control-label">类型</label>
                             <div class="col-xs-2">
-                                <select name="" class="form-control input-sm">
-                                    <option value="">讲师</option>
-                                    <option value="">管理员</option>
+                                <select name="tc_type" class="form-control input-sm">
+                                    <option value="1">讲师</option>
+                                    <option value="0">管理员</option>
                                 </select>
                             </div>
                         </div>
@@ -171,16 +173,16 @@
                             <label for="" class="col-xs-3 control-label">性别</label>
                             <div class="col-xs-4">
                                 <label class="radio-inline">
-                                    <input type="radio" checked> 男
+                                    <input value="0" name="tc_gender" type="radio" checked> 男
                                 </label>
                                 <label class="radio-inline">
-                                    <input type="radio"> 女
+                                    <input value="1" name="tc_gender" type="radio"> 女
                                 </label>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-xs-7">
-                                <a class="btn btn-success btn-sm pull-right"> 添 加 </a>
+                                <button class="btn btn-success btn-sm pull-right"> 添 加 </button>
                             </div>
                         </div>
                     </form>
@@ -189,5 +191,9 @@
         </div>
     </div>
 </body>
+<script src="/bxg/node_modules/requirejs/require.js"></script>
 
+<script>
+     require(["/bxg/assets/js/config.js","/bxg/assets/js/teacher/edit.js"],function(){})
+</script>
 </html>

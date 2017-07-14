@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../../node_modules/font-awesome/css/font-awesome.css">
     <link rel="stylesheet" href="../../node_modules/nprogress/nprogress.css">
     <link rel="stylesheet" href="../../assets/css/index.css">
+    <link rel="stylesheet" href="/bxg/node_modules/webuploader/dist/webuploader.css">
 </head>
 
 <body>
@@ -136,106 +137,141 @@
                             </a>
                         </li>
                     </ul>
-                </nav>          
+                </nav>
             </div>
             <!-- 讲师资料 -->
             <div class="body teacher-profile">
+                <div id="uploader-demo">
+                    <!--用来存放item-->
+                    <div id="fileList" class="uploader-list"></div>
+                    <div id="filePicker">选择图片</div>
+                </div>
+                <!--模板引擎设置开始-->
                 <div class="settings">
-                    <form action="" class="form-horizontal">
-                        <div class="form-group">
-                            <label for="" class="col-xs-3 control-label">姓名</label>
-                            <div class="col-xs-5">
-                                <p class="form-control-static">天下二</p>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="" class="col-xs-3 control-label">头像</label>
-                            <div class="col-xs-2 preview">
-                                <img src="../../assets/img/default.png">
-                                <input type="file" id="upfile">
-                                <div class="cover">
-                                    <i class="fa fa-upload"></i>
+                    <script id="profile" type="text/html">
+                        <form action="" class="form-horizontal">
+                            <div class="form-group">
+                                <label for="" class="col-xs-3 control-label">姓名</label>
+                                <div class="col-xs-5">
+                                    <p class="form-control-static">{{list.tc_name}}</p>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="" class="col-xs-3 control-label">昵称</label>
-                            <div class="col-xs-5">
-                                <input type="text" class="form-control input-sm">
+                            <div class="form-group">
+                                <label for="" class="col-xs-3 control-label">头像</label>
+                                <div class="col-xs-2 preview">
+                                    <img src="{{list.tc_avatar}}">
+                                    <input type="file" id="upfile">
+                                    <div class="cover">
+                                        <i class="fa fa-upload"></i>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="" class="col-xs-3 control-label">性别</label>
-                            <div class="col-xs-3">
-                                <label class="radio-inline">
-                                    <input type="radio" checked> 男
+                            <div class="form-group">
+                                <label for="" class="col-xs-3 control-label">昵称</label>
+                                <div class="col-xs-5">
+                                    <input name="tc_roster" type="text" value="{{list.tc_roster}}" class="form-control input-sm">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="col-xs-3 control-label">性别</label>
+                                <div class="col-xs-3">
+                                    {{if list.tc_gender===0 }}
+                                    <label class="radio-inline">
+                                    <input name="tc_gender" value="0" checked type="radio" checked> 男
                                 </label>
-                                <label class="radio-inline">
-                                    <input type="radio"> 女
+                                    <label class="radio-inline">
+                                    <input name="tc_gender"  value="1" type="radio"> 女
+                                </label> {{else}}
+                                    <label class="radio-inline">
+                                    <input name="tc_gender"  value="0" type="radio" checked> 男
                                 </label>
+                                    <label class="radio-inline">
+                                    <input name="tc_gender" value="1" checked type="radio"> 女
+                                </label> {{/if}}
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="" class="col-xs-3 control-label">出生日期</label>
-                            <div class="col-xs-5">
-                                <input type="text" class="form-control input-sm">
+                            <div class="form-group">
+                                <label for="" class="col-xs-3 control-label">出生日期</label>
+                                <div class="col-xs-5">
+                                    <input name="tc_birthday" value="{{list.tc_birthday}}" type="text" class="form-control input-sm">
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="" class="col-xs-3 control-label">籍贯</label>
-                            <div class="col-xs-5">
-                                <select name="" class="form-control input-sm">
-                                    <option value="">河北省</option>
-                                    <option value="">山东省</option>
+                            <div class="form-group">
+                                <label for="" class="col-xs-3 control-label">籍贯</label>
+                                <div class="col-xs-5">
+                                    <select name="tc_province" class="form-control input-sm">
+                                        {{ each PCD.p["000000"] as v i }}
+                                            {{ if i === list.tc_province }}
+                                                <option selected value="{{i}}">{{v}}</option>
+                                            {{else}}
+                                                <option value="{{i}}">{{v}}</option>
+                                            {{/if}}
+                                        {{ /each}}
+                                </select>
+                                    <select name="tc_city" class="form-control input-sm">
+                                        {{ each PCD.c[list.tc_province] as v i }}
+                                            {{ if i === list.tc_city }}
+                                                <option selected value="{{i}}">{{v}}</option>
+                                            {{else}}
+                                                <option value="{{i}}">{{v}}</option>
+                                            {{/if}}
+                                        {{ /each}}
+                                </select>
+                                    <select name="tc_district" class="form-control input-sm">
+                                        {{ each PCD.d[list.tc_city] as v i }}
+                                            {{ if i === list.tc_district }}
+                                                <option selected value="{{i}}">{{v}}</option>
+                                            {{else}}
+                                                <option value="{{i}}">{{v}}</option>
+                                            {{/if}}
+                                        {{ /each}}
                                     <option value="">北京市</option>
                                 </select>
-                                <select name="" class="form-control input-sm">
-                                    <option value="">河北省</option>
-                                    <option value="">山东省</option>
-                                    <option value="">北京市</option>
-                                </select>
-                                <select name="" class="form-control input-sm">
-                                    <option value="">河北省</option>
-                                    <option value="">山东省</option>
-                                    <option value="">北京市</option>
-                                </select>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="" class="col-xs-3 control-label">手机号码</label>
-                            <div class="col-xs-5">
-                                <input type="text" class="form-control input-sm">
+                            <div class="form-group">
+                                <label for="" class="col-xs-3 control-label">手机号码</label>
+                                <div class="col-xs-5">
+                                    <input name="tc_cellphone" value="{{list.tc_cellphone}}" type="text" class="form-control input-sm">
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="" class="col-xs-3 control-label">电子邮箱</label>
-                            <div class="col-xs-5">
-                                <input type="text" class="form-control input-sm">
+                            <div class="form-group">
+                                <label for="" class="col-xs-3 control-label">电子邮箱</label>
+                                <div class="col-xs-5">
+                                    <input name="tc_email"  value="{{list.tc_email}}" type="text" class="form-control input-sm">
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="" class="col-xs-3 control-label">入职日期</label>
-                            <div class="col-xs-5">
-                                <input type="text" class="form-control input-sm">
+                            <div class="form-group">
+                                <label for="" class="col-xs-3 control-label">入职日期</label>
+                                <div class="col-xs-5">
+                                    <input name="tc_join_date"  value="{{list.tc_join_date}}"  type="text" class="form-control input-sm">
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="" class="col-xs-3 control-label">个人介绍</label>
-                            <div class="col-xs-5 ckeditor">
-                                <textarea name="" rows="15" class="form-control input-sm"></textarea>
+                            <div class="form-group">
+                                <label for="" class="col-xs-3 control-label">个人介绍</label>
+                                <div class="col-xs-5 ckeditor">
+                                    <textarea name="tc_introduce" rows="15" class="form-control input-sm">{{list.tc_introduce}}</textarea>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-xs-8">
-                                <a class="btn btn-success btn-sm pull-right">保 存</a>
-                                <a href="./repass.html" class="btn btn-link btn-sm pull-right">更改密码？</a>
+                            <div class="form-group">
+                                <div class="col-xs-8">
+                                    <button class="btn btn-success btn-sm pull-right">保 存</button>
+                                    <a href="./repass.html" class="btn btn-link btn-sm pull-right">更改密码？</a>
+                                </div>
                             </div>
-                        </div>
-                    </form>
+                        </form>
+                    </script>
+                    <!--模板引擎设置结束-->
                 </div>
             </div>
         </div>
     </div>
 </body>
+<script src="/bxg/node_modules/requirejs/require.js"></script>
+
+<script>
+    require(["/bxg/assets/js/config.js", "/bxg/assets/js/index/setting.js"], function () { })
+
+</script>
 
 </html>

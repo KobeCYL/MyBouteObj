@@ -136,7 +136,7 @@
                             </a>
                         </li>
                     </ul>
-                </nav>          
+                </nav>
             </div>
             <div class="body course-add">
                 <!-- 面包屑 -->
@@ -180,61 +180,73 @@
                     <!-- 基本信息 -->
                     <div class="content">
                         <!-- 标题 -->
-                        <div class="title">
-                            <h5>基本信息 <small>BASIC INFORMATION</small></h5>
-                        </div>
-                        <form action="" class="basic form-horizontal">
-                            <div class="form-group">
-                                <label for="" class="col-xs-2 control-label">标题</label>
-                                <div class="col-xs-8">
-                                    <input type="text" class="form-control input-sm" value="Git指南">
-                                </div>
+                        <script id="template" type="text/html">
+                            <div class="title">
+                                <h5>基本信息 <small>BASIC INFORMATION</small></h5>
                             </div>
-                            <div class="form-group">
-                                <label for="" class="col-xs-2 control-label">课程描述</label>
-                                <div class="col-xs-8 ckeditor">
-                                    <textarea name="" rows="15" class="form-control input-sm"></textarea>
+                            <form action="" class="basic form-horizontal">
+                                <div class="form-group">
+                                    <label for="" class="col-xs-2 control-label">标题</label>
+                                    <div class="col-xs-8">
+                                        <input name="cs_name" type="text" class="form-control input-sm" value="{{list.cs_name}}">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="" class="col-xs-2 control-label">讲师</label>
-                                <div class="col-xs-8">
-                                    <select name="" class="form-control input-sm">
-                                        <option value="">李鹏周</option>
-                                        <option value="">汪磊</option>
-                                        <option value="">蒋坤</option>
+                                <div class="form-group">
+                                    <label for="" class="col-xs-2 control-label">课程描述</label>
+                                    <div class="col-xs-8 ckeditor">
+                                        <textarea name="cs_brief" rows="15" class="form-control input-sm">{{list.cs_brief}}</textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="" class="col-xs-2 control-label">讲师</label>
+                                    <div class="col-xs-8">
+                                        <select name="" class="form-control input-sm">
+                                            {{each list.teacher }}
+                                                 <option value="{{$value.tc_id}}">{{$value.tc_name}}</option>
+                                            {{/each}}
                                     </select>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="" class="col-xs-2 control-label">分类</label>
-                                <div class="col-xs-8">
-                                    <select name="" class="form-control input-sm">
-                                        <option value="">互联网</option>
+                                <div class="form-group">
+                                    <label for="" class="col-xs-2 control-label">分类</label>
+                                    <div class="col-xs-8">
+                                        <select id="top" name="" class="form-control input-sm">
+                                            {{each list.category.top as v i }}
+                                                <option value="{{v.cg_id}}">{{v.cg_name}}</option>
+                                            {{/each}}
                                     </select>
-                                    <select name="" class="form-control input-sm">
-                                        <option value="">网页设计</option>
+                                        <select id="childs" name="" class="form-control input-sm">
+                                            {{each list.category.childs as v i }}
+                                                <option value="{{v.cg_id}}">{{v.cg_name}}</option>
+                                            {{/each}}
                                     </select>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="" class="col-xs-2 control-label">标签</label>
-                                <div class="col-xs-8">
-                                    <input type="text" class="form-control input-sm">
-                                    <p class="help-block">将会应用于按标签搜索课程、相关课程的提取等</p>
+                                <div class="form-group">
+                                    <label for="" class="col-xs-2 control-label">标签</label>
+                                    <div class="col-xs-8">
+                                        <input name="cs_tags" value="{{list.cs_tags}}" type="text" class="form-control input-sm">
+                                        <p class="help-block">将会应用于按标签搜索课程、相关课程的提取等</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-xs-10">
-                                    <a href="./course_add_step2.html" class="btn btn-success btn-sm pull-right">保 存</a>
+                                <div class="form-group">
+                                    <div class="col-xs-10">
+                                        <button href="./course_add_step2.html" class="btn btn-success btn-sm pull-right">保 存</button>
+                                    </div>
                                 </div>
-                            </div>
-                        </form>
+                            </form>
+                        </script>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </body>
+<script src="/bxg/node_modules/requirejs/require.js"></script>
+
+<script>
+    require(["/bxg/assets/js/config.js", "/bxg/assets/js/course/step1.js"], function () { })
+
+</script>
 
 </html>

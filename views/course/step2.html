@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="../../node_modules/font-awesome/css/font-awesome.css">
     <link rel="stylesheet" href="../../node_modules/nprogress/nprogress.css">
     <link rel="stylesheet" href="../../assets/css/index.css">
+    <link rel="stylesheet" href="../../assets/js/lib/jcrop/css/jquery.Jcrop.css">
+    <!--<link rel="stylesheet" href="/bxg/node_modules/webuploader/dist/webuploader.css">-->
 </head>
 
 <body>
@@ -186,16 +188,16 @@
                         <!-- 上传图片 -->
                         <div class="picture col-xs-offset-2">
                             <div class="preview">
-                                <img src="/public/uploads/course.png" alt="">
+                                <img src="" alt="">
                             </div>
                             <p class="tips">
                                 可上传jpg, gif, png格式文件, 图片建议尺寸大于300x150，文件大小不能超过2M。
                             </p>
                             <div class="col-xs-2">
-                                <a href="./course_add_step3.html" class="btn btn-success btn-sm">选择图片</a>
+                                <div id="filePicker"  class="btn btn-success btn-sm">选择图片</div>
                             </div>
                             <div class="col-xs-2">
-                                <a href="javascript:;" class="btn btn-warning btn-sm" disabled>裁切图片</a>
+                                <button href="javascript:;" class="btn btn-warning btn-sm" >裁切图片</button>
                             </div>
                         </div>
                     </div>
@@ -204,5 +206,11 @@
         </div>
     </div>
 </body>
+<script src="/bxg/node_modules/requirejs/require.js"></script>
+
+<script>
+    require(["/bxg/assets/js/config.js", "/bxg/assets/js/course/step2.js"], function () { })
+
+</script>
 
 </html>

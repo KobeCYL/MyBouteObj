@@ -26,7 +26,7 @@
         <div class="navs">
             <ul class="list-unstyled">
                 <li>
-                    <a href>
+                    <a href="../index/dashboard.html">
                         <i class="fa fa-home"></i>
                         仪表盘
                     </a>
@@ -253,16 +253,16 @@
     </div>
     <script id="tmpl-list" type="text/html">
         {{each list as item}}
-        <tr tc-id="{{item.tc_id}}">
+        <tr tc-id="{{item.tc_id}}" tc-status="{{item.tc_status}}">
             <td>{{item.tc_id}}</td>
             <td>{{item.tc_name}}</td>
             <td>{{item.tc_roster}}</td>
-            <td>{{getAge(item.tc_birthday)}}</td>
+            <td>{{getTcAge(item.tc_birthday)}}</td>
             <td>{{item.tc_gender}}</td>
             <td>{{item.tc_cellphone}}</td>
             <td>
-                <a href="javascript:" data-toggle="modal" class="preview btn btn-info btn-xs">查 看</a>
-                <a href="/views/teacher/edit.html" class="btn btn-info btn-xs">编 辑</a>
+                <a href="javascript:" class="preview btn btn-info btn-xs">查 看</a>
+                <a href="/bxg/views/teacher/edit.html?tc_id={{item.tc_id}}" class="btn btn-info btn-xs">编 辑</a>
                 <a status="{{item.tc_status}}" href="javascript:" class="start-stop btn btn-warning btn-xs">
                 {{item.tc_status === '0' ? '注销' : '启用'}}
             </a>
@@ -271,5 +271,8 @@
         {{/each}}
     </script>
 </body>
-
+<script src="/bxg/node_modules/requirejs/require.js"></script>
+<script>
+    require(["/bxg/assets/js/config.js","/bxg/assets/js/teacher/list.js"],function(){})
+</script>
 </html>
